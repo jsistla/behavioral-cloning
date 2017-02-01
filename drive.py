@@ -2,11 +2,13 @@ import argparse
 import base64
 import json
 
+
 import numpy as np
 import socketio
 import eventlet
 import eventlet.wsgi
 import time
+
 from PIL import Image
 from PIL import ImageOps
 from flask import Flask, render_template
@@ -41,8 +43,10 @@ def telemetry(sid, data):
     # This model currently assumes that the features of the model are just the images. Feel free to change this.
     steering_angle = float(model.predict(transformed_image_array, batch_size=1))
     # The driving model currently just outputs a constant throttle. Feel free to edit this.
-    throttle = 0.2
-    print(steering_angle, throttle)
+    throttle = 0.3
+
+    print('{:.5f}, {:.1f}'.format(steering_angle, throttle))
+
     send_control(steering_angle, throttle)
 
 
@@ -65,14 +69,7 @@ if __name__ == '__main__':
     help='Path to model definition json. Model weights should be on the same path.')
     args = parser.parse_args()
     with open(args.model, 'r') as jfile:
-        # NOTE: if you saved the file by calling json.dump(model.to_json(), ...)
-        # then you will have to call:
-        #
-        #   model = model_from_json(json.loads(jfile.read()))\
-        #
-        # instead.
-        model = model_from_json(jfile.read())
-
+        model = model_from_json(json.load(jfile))
 
     model.compile("adam", "mse")
     weights_file = args.model.replace('json', 'h5')
