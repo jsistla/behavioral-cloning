@@ -147,10 +147,11 @@ However, the model built using that dataset was not good enough to autonomously 
 However, later I used the dataset published by the Udacity. The model developed using that dataset (with the help of augmented data) works well on both tracks as shown in following videos. 
 
 #### Training Track
-[![training_track]
+[![training_track](./result_gifs/track_one.gif)
 
 #### Validation Track
-[![validation_track]
+[![validation_track](./result_gifs/track_one.gif)
+
 
 ## Conclusions and Future Directions
 In this project, we were working on a regression problem in the context of self-driving cars.
@@ -164,4 +165,5 @@ When it comes to extensions and future directions, Idid try the following.
 
 * Use Transfer learning approach for the same project. I did try to use inception V3 to do the same. But i couldnt get proper results. 
 May be i need to do exercise on proper  possible data augmentation techniques and data handling. This i am planning to do as my own exercise. 
+
 
