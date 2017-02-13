@@ -61,7 +61,7 @@ in order to generalize the training model for unseen tracks such as my validatio
 
 Below is the data processing pipeline.
 <p align="center">
- <img src="Pre-Processing.png">
+ <img src="./processed/Pre-Processing.png">
 </p>
 
 
@@ -96,7 +96,7 @@ The main difference between our model and the NVIDIA mode is than we did use Max
 For more details about our network architecture please refer following figure.
 
 <p align="center">
- <img src="model.png">
+ <img src="./processed/model.png">
 </p>
 
 ___________________________________________________________________________________________________
@@ -136,7 +136,7 @@ In addition to that, we used 6400 images (also generated on the fly) for validat
 
 The final model architecture consisted of a convolution neural network with the following layers and layer sizes  
 <p align="center">
- <img src="model-elements.png">
+ <img src="./processed/model-elements.png">
 </p>
 
 ## Results
@@ -150,7 +150,6 @@ However, later I used the dataset published by the Udacity. The model developed 
 
 #### Validation Track
 [![validation_track](./result_gifs/track_one.gif)
-
 
 
 ## Conclusions and Future Directions
