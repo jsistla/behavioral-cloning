@@ -61,27 +61,13 @@ in order to generalize the training model for unseen tracks such as my validatio
 
 Below is the data processing pipeline.
 <p align="center">
- <img src="./processed/Pre-Processing.png">
+ <img src="./images/Pre-Processing.png">
 </p>
 
 
 In the very first state of the pipeline, we apply random shear operation. However, we select images with 0.9 probability for the random shearing process. We kept 10 percent of original images and steering angles in order to help the car to navigate in the training track. The following figure shows the result of shearing operation applied to a sample image.
-
-<p align="center">
- <img src="./processed/sheared.png">
-</p>
-
 The images captured by the simulator come with a lot of details which do not directly help model building process.  In addition to that extra space occupied by these details required additional processing power. Hence, we remove 35 percent of the original image from the top and 10 percent. This process was done in crop stage. The following figure shows the result of cropping operation applied to an image.
-
-<p align="center">
- <img src="./processed/cropped.png">
-</p>
-
 The next stage of the data processing pipeline is called random flip stage. In this stage we randomly (with 0.5 probability) flip images. The idea behind this operation is left turning bends are more prevalent than right bends in the training track. Hence, in order to increase the generalization of our mode, we flip images and respective steering angles. The following figure shows the result of flipping operation applied to an image.
-
-<p align="center">
- <img src="./processed/flipped.png">
-</p>
 
 In the final state of the pipeline, we resize images to 64x64 in order to reduce training time.
 
@@ -96,7 +82,7 @@ The main difference between our model and the NVIDIA mode is than we did use Max
 For more details about our network architecture please refer following figure.
 
 <p align="center">
- <img src="./processed/model.png">
+ <img src="./images/model.png">
 </p>
 
 ___________________________________________________________________________________________________
@@ -145,11 +131,10 @@ That dataset was small and recorded while navigating the car using the laptop ke
 However, the model built using that dataset was not good enough to autonomously navigate the car in the simulator. 
 However, later I used the dataset published by the Udacity. The model developed using that dataset (with the help of augmented data) works well on both tracks as shown in following videos. 
 
-#### Training Track
-[![training_track](./result_gifs/track_one.gif)
+Training | Validation
+------------|---------------
+![training_img](./result_gifs/track_one.gif) | ![validation_img](./result_gifs/track_two.gif)
 
-#### Validation Track
-[![validation_track](./result_gifs/track_one.gif)
 
 
 ## Conclusions and Future Directions
