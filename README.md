@@ -60,10 +60,9 @@ Hence, the majority of the recorded steering angles are zeros. Therefore, prepro
 in order to generalize the training model for unseen tracks such as my validation track.
 
 Below is the data processing pipeline.
-
-Image Pre-Processing                       |                                   
-:-----------------------------------------:|
-!(Pre-Processing.png)                      | 
+<p align="center">
+ <img src="Pre-Processing.png">
+</p>
 
 
 In the very first state of the pipeline, we apply random shear operation. However, we select images with 0.9 probability for the random shearing process. We kept 10 percent of original images and steering angles in order to help the car to navigate in the training track. The following figure shows the result of shearing operation applied to a sample image.
@@ -97,7 +96,7 @@ The main difference between our model and the NVIDIA mode is than we did use Max
 For more details about our network architecture please refer following figure.
 
 <p align="center">
- <img src="./model.png">
+ <img src="model.png">
 </p>
 
 ___________________________________________________________________________________________________
@@ -137,7 +136,7 @@ In addition to that, we used 6400 images (also generated on the fly) for validat
 
 The final model architecture consisted of a convolution neural network with the following layers and layer sizes  
 <p align="center">
- <img src="./model-elements.png">
+ <img src="model-elements.png">
 </p>
 
 ## Results
@@ -151,6 +150,7 @@ However, later I used the dataset published by the Udacity. The model developed 
 
 #### Validation Track
 [![validation_track](./result_gifs/track_one.gif)
+
 
 
 ## Conclusions and Future Directions
