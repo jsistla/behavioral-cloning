@@ -122,7 +122,7 @@ In addition to that, we used 6400 images (also generated on the fly) for validat
 
 The final model architecture consisted of a convolution neural network with the following layers and layer sizes  
 <p align="center">
- <img src="./processed/model-elements.png">
+ <img src="./images/model-elements.png">
 </p>
 
 ## Results
