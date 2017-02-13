@@ -17,6 +17,7 @@ from io import BytesIO
 from keras.models import model_from_json
 from keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array
 
+import utils
 # Fix error with Keras and TensorFlow
 import tensorflow as tf
 tf.python.control_flow_ops = tf
@@ -27,20 +28,36 @@ app = Flask(__name__)
 model = None
 prev_image_array = None
 
+
+def crop(image, top_cropping_percent):
+    assert 0 <= top_cropping_percent < 1.0, 'top_cropping_percent should be between zero and one'
+    percent = int(np.ceil(image.shape[0] * top_cropping_percent))
+    return image[percent:, :, :]
+
+
 @sio.on('telemetry')
 def telemetry(sid, data):
     # The current steering angle of the car
     steering_angle = data["steering_angle"]
+
     # The current throttle of the car
     throttle = data["throttle"]
+
     # The current speed of the car
     speed = data["speed"]
+
     # The current image from the center camera of the car
     imgString = data["image"]
     image = Image.open(BytesIO(base64.b64decode(imgString)))
     image_array = np.asarray(image)
+
+    image_array = utils.crop(image_array, 0.35, 0.1)
+    image_array = utils.resize(image_array, new_dim=(64, 64))
+
     transformed_image_array = image_array[None, :, :, :]
+
     # This model currently assumes that the features of the model are just the images. Feel free to change this.
+
     steering_angle = float(model.predict(transformed_image_array, batch_size=1))
     # The driving model currently just outputs a constant throttle. Feel free to edit this.
     throttle = 0.3
