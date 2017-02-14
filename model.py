@@ -1,5 +1,5 @@
 import tensorflow as tf
-from keras.layers import Dense, Flatten, Lambda, Activation, MaxPooling2D
+from keras.layers import Dense, Flatten, Lambda, Activation, MaxPooling2D, Dropout
 from keras.layers.convolutional import Convolution2D
 from keras.models import Sequential
 from keras.optimizers import Adam
@@ -45,16 +45,14 @@ model.add(MaxPooling2D(pool_size=(2, 2), strides=(1, 1)))
 model.add(Convolution2D(64, 3, 3, border_mode='same', subsample=(1, 1)))
 model.add(Activation(activation_relu))
 model.add(MaxPooling2D(pool_size=(2, 2), strides=(1, 1)))
+#model.add(Dropout(0.5))
 
 model.add(Flatten())
 
 # Next, five fully connected layers
 model.add(Dense(1164))
 model.add(Activation(activation_relu))
-
-# Testing to see if model converges faster.
-#model.add(Dense(512))
-#model.add(Activation(activation_relu))
+model.add(Dropout(0.5))
 
 model.add(Dense(100))
 model.add(Activation(activation_relu))
@@ -64,6 +62,7 @@ model.add(Activation(activation_relu))
 
 model.add(Dense(10))
 model.add(Activation(activation_relu))
+model.add(Dropout(0.5))
 
 model.add(Dense(1))
 

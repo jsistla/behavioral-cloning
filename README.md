@@ -91,8 +91,11 @@ ________________________________________________________________________________
 
 The model contains dropout layers in order to reduce overfitting 
 
+To make the architecture more robust and to prevent overfitting
 The model was trained and validated on different data sets to ensure that the model was not overfitting. 
 The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
+
+Dropout disables neurons in your network by a given probability and prevents co-adaption of features.
 
 ####3. Model parameter tuning
 
@@ -116,9 +119,48 @@ We created two generators namely:
 
 Batch size of both `train_gen` and `validation_gen` was 64. We used 20032 images per training epoch.
 It is to be noted that these images are generated on the fly using the document processing pipeline described above.
-In addition to that, we used 6400 images (also generated on the fly) for validation. We used `Adam` optimizer with `1e-4` learning rate. Finally, when it comes to the number of training epochs we tried several possibilities such as `5`, `8`, `1`0, `2`5 and `50`. However, `8` works well on both training and validation tracks.
+In addition to that, we used 6400 images (also generated on the fly) for validation. We used `Adam` optimizer with `1e-4` learning rate. 
+Finally, when it comes to the number of training epochs we tried several possibilities such as `5`, `8`, `1`0, `2`5 and `50`. However, `12` works well on both training and validation tracks.
 
-####2. Final Model Architecture
+####2. Model Architecture
+I looked into NVIDIA's CNN - Paper: https://arxiv.org/pdf/1604.07316v1.pdf.
+Before finalizing on this architecture, I experimented with a model from the Keras lab(transfer learning using inception V3), 
+and Comma.ai's model from: https://github.com/commaai/research. The problem with both of these models is that they 
+have too many model parameters and the hidden layers weights are much too large to be scalable. I chose the NVIDIA 
+based model weights are a lot smaller; and therefore, much more scalable and performs faster. 
+I pretty much followed the CNN network architecture from NVIDIA as outlined in their paper.
+
+####2.1 Normalization
+
+I use a Keras lambda function to normalize the data between -1 to 1. 
+Putting normalization in Keras allows the operation to be parallelized in GPUs and I don’t have to normalize manually 
+when running the model during testing in the simulator in autonomous mode
+
+####2.2 Feature Extraction
+
+There are 4 ConvNet layers. Each has:
+
+2D Convolution
+ELU activation function
+Max Pooling
+
+For the first three 2D Convolutions, I first did 5x5 to extract large features. Then the later two convolutions, we do 3x3 to extract groupings of features.
+
+For the activation I use ELU instead of RELU, which was talked about in the lectures. With RELU some neurons can become inactive because the negative half of the RELU sends them to 0. ELU uses both positive and negative values and can train systems more consistently: http://www.picalike.com/blog/2015/11/28/relu-was-yesterday-tomorrow-comes-elu/
+
+We use max pooling to bring down the dimensionality of the training and yield less data.
+
+
+
+####2.3 Decision Making
+
+First the data is flattened. Then 4 hidden layers are used, of sizes 1164, 100, 50, and 10 neurons.
+Each of these has a ELU activation function. Lastly, there is 1 output neuron.
+
+I used dropout to prevent overfitting to the specific images that the system is trained on.
+
+
+####3. Final Model Architecture
 
 The final model architecture consisted of a convolution neural network with the following layers and layer sizes  
 <p align="center">
@@ -143,7 +185,7 @@ In the initial phase, we mainly focused on finding a suitable network architectu
 However, it didn't perform as expected when we test the model using the simulator. 
 
 Then I started to use a new dataset (actually, it was the dataset published by Udacity). 
- Also, I used relatively small number of training epochs. Data augmentation and new dataset work  well and our final model showed good performance on both tracks. 
+ Also, I used relatively small number of training epochs. Data augmentation and new dataset work  well and our final model showed ok performance on both tracks. 
 
 When it comes to extensions and future directions, Idid try the following.
 
